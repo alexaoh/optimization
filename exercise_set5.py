@@ -18,3 +18,11 @@ print("Iterations required to reduce the \ell^2 norm below", str(tol) + ", for t
 print(iterations)
 
 # Why do these results not contradict the theoretical results concerning the CG method that were discussed in the lecture?
+# As is seen by the results, the number of iterations are always larger than the number of dimensions. 
+# This contradicts the theoretical results, which state that convergence always takes place in mostly the same amount of iterations
+# as the number of variables. However, in this theoretical results, it is assumed that the arithmetic operations are exact, 
+# which is not the case when applied numerically. 
+
+# The expected effect of the rounding errors depends ont he condition number of the matrix A. 
+# Since the Hilbert matrix is badly conditioned ( \mathcal{O}(\frac{(1+\sqrt{2})^{4n}}{\sqrt{n}}) ), 
+# the condition number increases very fast, and it is expected that the CG methods struggles for this problem. 

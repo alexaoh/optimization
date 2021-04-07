@@ -2,7 +2,7 @@
 import numpy as np
 import numpy.linalg as la
 
-def cg(x0, A, b, tol, max_steps = 1000):
+def cg(x0, A, b, tol = 1e-8, max_steps = 1000):
     """Conjugate Gradient Method.
     
     Input:
@@ -21,12 +21,15 @@ def cg(x0, A, b, tol, max_steps = 1000):
     p = -r
     k = 0
     x = x0
+    rTr = np.inner(r,r)
     while la.norm(r) > tol and k < max_steps:
-        alpha = np.inner(r,r)/np.inner(p, A@p)
+        Ap = A@p
+        alpha = rTr/np.inner(p, Ap)
         x = x + alpha*p
-        r1 = r + alpha*A@p
-        beta = np.inner(r1, r1)/np.inner(r, r)
+        r1 = r + alpha*Ap
+        beta = np.inner(r1, r1)/rTr
         p = -r1 + beta*p
-        k += 1
         r = r1
+        rTr = np.inner(r,r)
+        k += 1
     return x, k, r
