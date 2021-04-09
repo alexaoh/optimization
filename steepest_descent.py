@@ -15,6 +15,7 @@ def backtracking_line_search(f, grad_f, p, alpha_bar, rho, c, x):
     Output:
     alpha: Step length to satisfy the Wolfe conditions. 
     """
+    # grad_f needs to be callable here as well, in order to match the functionality of the bisecting line search!
     alpha = alpha_bar
     while f(x+alpha*p) > f(x) + c*alpha*np.inner(grad_f, p):
         alpha *= rho
@@ -83,11 +84,10 @@ def steepest_descent(x0, f, grad_f, tol, line_search_method):
         return 
 
     x = x0
-    alpha = line_search_method(f, grad_f, p, alpha_bar, rho, c, x0)
-
     k = 0
     gradient = grad_f(x) # In order to save some function calls. 
     while k < maxiter and gradient > tol:
+        alpha = line_search_method(f, grad_f, p, alpha_bar, rho, c, x)
         x -= alpha*gradient
         gradient = grad_f(x)
         k += 1 
